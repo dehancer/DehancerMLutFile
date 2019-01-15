@@ -12,22 +12,18 @@ import IMProcessing
 
 public struct MLutAttributes {
     
-    public var type:MLutType           = .mlut
-    public var lutSize:MLutSize        = .normal
-    public var filmType:MLutFilmType   = .negative
-    public var colorType:MLutColorType = .color
-    public var name:MLutName?
-    public var bundleDescription:MLutDescription?
-
-    public var isPrinted:MLutPrinted = {
-        let printed = MLutPrinted()
-        printed.state = false
-        return printed
-    }()
-    
-    public var expandImpact:Float = 0
+    public var type:MLutType              = .mlut
+    public var lutSize:MLutSize           = .normal
+    public var filmType:MLutFilmType      = .negative
+    public var colorType:MLutColorType    = .color
     public var expandMode:IMPBlendingMode = .normal
 
+    public var isPrinted    = MLutPrinted()
+    public var expandImpact = MLutExpandImpactModel()
+
+    public var name:MLutName?
+    public var bundleDescription:MLutDescription?
+    
     public init(){}
     
     @discardableResult public func store(url: URL, extension ext: String = "xmp") throws -> ImageMeta {
@@ -38,7 +34,7 @@ public struct MLutAttributes {
         try meta.setField(isPrinted)
         try meta.setField(filmType.model)
         try meta.setField(colorType.model)
-        try meta.setField(expandImpact.model)
+        try meta.setField(expandImpact)
         try meta.setField(expandMode.model)
 
         if let name = name {
@@ -67,14 +63,15 @@ public struct MLutAttributes {
         }
         type = t
         
-        isPrinted = try MLutPrinted(meta: meta)
         lutSize = try MLutSize(meta: meta) ?? .normal
         filmType = try MLutFilmType(meta: meta) ?? .negative
         colorType = try MLutColorType(meta: meta) ?? .color
+        expandMode = try IMPBlendingMode(meta: meta) ?? .normal
+
+        isPrinted = try MLutPrinted(meta: meta)
         name = try MLutName(meta: meta)
         bundleDescription = try MLutDescription(meta: meta)
-        expandImpact = try Float(meta: meta) ?? 0
-        expandMode = try IMPBlendingMode(meta: meta) ?? .normal
+        expandImpact = try MLutExpandImpactModel(meta:meta)
 
         return meta
     }
@@ -82,6 +79,6 @@ public struct MLutAttributes {
 
 extension MLutAttributes: CustomStringConvertible {
     public var description: String {
-        return "\(type.caption, lutSize.caption, filmType.caption, colorType.caption, isPrinted.state)"
+        return "\(type.caption, lutSize.caption, filmType.caption, colorType.caption, isPrinted.nsvalue)"
     }
 }

@@ -177,6 +177,11 @@
 				TargetAttributes = {
 					313E13FB21EA81AA00D9A281 = {
 						CreatedOnToolsVersion = 10.1;
+						SystemCapabilities = {
+							com.apple.Sandbox = {
+								enabled = 0;
+							};
+						};
 					};
 					313E140B21EA81AA00D9A281 = {
 						CreatedOnToolsVersion = 10.1;
@@ -458,7 +463,6 @@
 			baseConfigurationReference = 15F6EA2F1304922D625A3B7B /* Pods-MLutFile-Pod.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = "MLutFile-Pod/MLutFile_Pod.entitlements";
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -480,7 +484,6 @@
 			baseConfigurationReference = C2E4E9F982721C30D059A16E /* Pods-MLutFile-Pod.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = "MLutFile-Pod/MLutFile_Pod.entitlements";
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;

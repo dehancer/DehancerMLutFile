@@ -7,11 +7,13 @@
 //
 
 #import <IMProcessingXMP/ImageMeta.h>
+#import "MLutNumberModel.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface MLutExpandImpactModel : ImageMetaField
+@interface MLutExpandImpactModel : MLutNumberModel
 @property(nonnull)  NSNumber *nsvalue;
+-(instancetype) initWith:(float)value;
 @end
 
 NS_ASSUME_NONNULL_END

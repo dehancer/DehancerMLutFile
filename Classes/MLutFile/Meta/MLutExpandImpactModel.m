@@ -9,8 +9,14 @@
 #import "MLutExpandImpactModel.h"
 
 @implementation MLutExpandImpactModel
-@dynamic serial;
-@dynamic datetime;
+
+- (instancetype) initWith:(float)value {
+    self = [super init];
+    if (self) {
+        self.nsvalue = [NSNumber numberWithFloat:value];
+    }
+    return self;
+}
 
 + (NSString*) name {
     return  @"mlutExpandImpact";
