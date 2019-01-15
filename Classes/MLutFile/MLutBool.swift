@@ -11,11 +11,6 @@ import IMProcessingXMP
 
 public extension MLutBoolModel {
     
-    public convenience init(meta: ImageMeta) throws {
-        self.init()
-        try create(meta: meta)
-    }
-    
     public var state:Bool {
         get {
             return nsstate.boolValue
@@ -23,11 +18,33 @@ public extension MLutBoolModel {
         set {
             nsstate = NSNumber(value: newValue)
         }
+    }  
+}
+
+
+public extension MLutPrinted {
+    public convenience init(meta: ImageMeta) throws {
+        self.init()
+        do {
+            let t = try meta.getField(MLutPrinted.self, fieldId: nil) as! MLutBoolModel
+            state = t.nsstate.boolValue
+        }
+        catch {
+            state = false
+        }
     }
-    
-    private func create<T:MLutBoolModel>(meta: ImageMeta) throws -> T {
-        let t = try meta.getField(T.self, fieldId: nil) as! T
-        state = t.nsstate.boolValue
-        return t
+}
+
+
+public extension MLutPublish {
+    public convenience init(meta: ImageMeta) throws {
+        self.init()
+        do {
+            let t = try meta.getField(MLutPublish.self, fieldId: nil) as! MLutBoolModel
+            state = t.nsstate.boolValue
+        }
+        catch {
+            state = false
+        }
     }
 }
