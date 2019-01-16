@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <IMProcessingXMP/ImageMeta.h>
 
 typedef NS_ENUM(uint, MLutSize) {
     MLutSizeTiny   = 0,
@@ -16,7 +15,3 @@ typedef NS_ENUM(uint, MLutSize) {
     MLutSizeLarge  = 3,
     MLutSizeHuge   = 4
 };
-
-@interface MLutSizeModel : ImageMetaField
-@property(nonnull)  NSNumber *nssize;
-@end

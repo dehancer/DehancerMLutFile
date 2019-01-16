@@ -10,18 +10,7 @@ import Foundation
 import IMProcessingXMP
 
 public extension MLutSize {
-    
-    public init?(meta: ImageMeta) throws {
-        let t = try meta.getField(MLutSizeModel.self, fieldId: nil) as! MLutSizeModel
-        self.init(rawValue: t.nssize.uint32Value)
-    }
-    
-    public var model:MLutSizeModel {
-        let m = MLutSizeModel()
-        m.nssize = NSNumber(value: self.rawValue)
-        return m
-    }
-    
+        
     public var size:Int {
         switch self {
         case .tiny:

@@ -19,15 +19,3 @@
 }
 
 @end
-
-@implementation MLutPublish
-+ (NSString*) name {
-    return  @"mlutPublish";
-}
-@end
-
-@implementation MLutPrinted
-+ (NSString*) name {
-    return  @"mlutPrinted";
-}
-@end
