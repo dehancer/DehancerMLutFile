@@ -12,38 +12,87 @@ import IMProcessing
 
 public struct MLutAttributes {
     
-    public var type:MLutType              = .mlut
-    public var lutSize:MLutSize           = .normal
-    public var filmType:MLutFilmType      = .negative
-    public var colorType:MLutColorType    = .color
-    public var expandMode:IMPBlendingMode = .normal
-
-    public var isPrinted    = MLutPrinted()
-    public var expandImpact = MLutExpandImpactModel()
-
-    public var name:MLutName?
-    public var bundleDescription:MLutDescription?
+    public var formatVersion:Int {
+        get { return model.nsformatVersion.intValue }
+        set { model.nsformatVersion = NSNumber(value: newValue)}
+    }
+    
+    public var revision:Int {
+        get { return model.nsrevision.intValue }
+        set { model.nsrevision = NSNumber(value: newValue)}
+    }
+    
+    public var isPublished:Bool  {
+        get { return model.nsisPublished.boolValue }
+        set { model.nsisPublished = NSNumber(value: newValue)}
+    }
+    
+    public var isPrinted:Bool   {
+        get { return model.nsisPrinted.boolValue }
+        set { model.nsisPrinted = NSNumber(value: newValue)}
+    }
+    
+    public var type:MLutType   {
+        get { return MLutType(rawValue: uint(model.nslutType.uintValue)) ?? .mlut }
+        set { model.nslutType = NSNumber(value: newValue.rawValue) }
+    }
+    
+    public var lutSize:MLutSize   {
+        get { return MLutSize(rawValue: uint(model.nslutSize.uintValue)) ?? .normal }
+        set { model.nslutSize = NSNumber(value: newValue.rawValue) }
+    }
+    
+    public var colorType:MLutColorType {
+        get { return MLutColorType(rawValue: uint(model.nscolorType.uintValue)) ?? .color }
+        set { model.nscolorType = NSNumber(value: newValue.rawValue) }
+    }
+    
+    public var filmType:MLutFilmType {
+        get { return MLutFilmType(rawValue: uint(model.nsfilmType.uintValue)) ?? .negative }
+        set { model.nsfilmType = NSNumber(value: newValue.rawValue) }
+    }
+    
+    public var expandBlendingMode:IMPBlendingMode {
+        get { return IMPBlendingMode(rawValue: uint(model.nsexpandBlendingMode.uintValue)) ?? .normal }
+        set { model.nsexpandBlendingMode = NSNumber(value: newValue.rawValue) }
+    }
+    
+    public var expandImpact:Float {
+        get { return model.nsexpandImpact.floatValue }
+        set { model.nsexpandImpact = NSNumber(value: newValue) }
+    }
+    
+    public var name:String? {
+        get { return model.nsname }
+        set { model.nsname = newValue }
+    }
+    
+    public var lutDescription:String? {
+        get { return model.nsdescription }
+        set { model.nsdescription = newValue }
+    }
+    
+    public var author:String? {
+        get { return model.nsauthor }
+        set { model.nsauthor = newValue }
+    }
+    
+    public var mantainer:String? {
+        get { return model.nsmantainer }
+        set { model.nsmantainer = newValue }
+    }
+    
+    public var tags:String? {
+        get { return model.nstags }
+        set { model.nstags = newValue }
+    }
+    
     
     public init(){}
     
     @discardableResult public func store(url: URL, extension ext: String = "xmp") throws -> ImageMeta {
         let meta = ImageMeta(path: url.path, extension: ext, history:1)
-        
-        try meta.setField(type.model)
-        try meta.setField(lutSize.model)
-        try meta.setField(isPrinted)
-        try meta.setField(filmType.model)
-        try meta.setField(colorType.model)
-        try meta.setField(expandImpact)
-        try meta.setField(expandMode.model)
-
-        if let name = name {
-            try meta.setField(name)
-        }
-        if let desc = bundleDescription {
-            try meta.setField(desc)
-        }
-        
+        try meta.setField(model)
         return meta
     }
     
@@ -51,34 +100,34 @@ public struct MLutAttributes {
         
         let meta = ImageMeta(path: url.path, extension: ext, history:1)
         
-        guard let t = try MLutType(meta: meta) else {
-            throw  NSError(domain: "com.dehancer.error",
-                           code: Int(EINVAL),
-                           userInfo: [
-                            NSLocalizedDescriptionKey:
-                                String(format: NSLocalizedString("Type of Multi Lut file is invalid", comment:"")),
-                            NSLocalizedFailureReasonErrorKey:
-                                String(format: NSLocalizedString("Open file error", comment:""))
-                ])
-        }
-        type = t
+        model = try meta.getField(MLutAttributesModel.self, fieldId: nil) as! MLutAttributesModel
         
-        lutSize = try MLutSize(meta: meta) ?? .normal
-        filmType = try MLutFilmType(meta: meta) ?? .negative
-        colorType = try MLutColorType(meta: meta) ?? .color
-        expandMode = try IMPBlendingMode(meta: meta) ?? .normal
-
-        isPrinted = try MLutPrinted(meta: meta)
-        name = try MLutName(meta: meta)
-        bundleDescription = try MLutDescription(meta: meta)
-        expandImpact = try MLutExpandImpactModel(meta:meta)
-
         return meta
     }
+    
+    private var model = MLutAttributesModel()
 }
 
 extension MLutAttributes: CustomStringConvertible {
+    
     public var description: String {
-        return "\(type.caption, lutSize.caption, filmType.caption, colorType.caption, isPrinted.nsvalue)"
+        var s = ""
+            
+            + " formatVersion: \(formatVersion)\n"
+            + "      revision: \(revision)\n"
+            + "    isPprinted: \(isPrinted)\n"
+            + "   isPublished: \(isPublished)\n"
+            + "          type: \(type.caption)\n"
+            + "          size: \(lutSize.caption)\n"
+            + "     colorType: \(colorType.caption)\n"
+            + "      filmType: \(filmType.caption)\n"
+            + "  blendingMode: \(expandBlendingMode.name)\n"
+            + "  expandImpact: \(expandImpact)\n"
+            + "        author: \(String(describing: author))\n"
+            + "     mantainer: \(String(describing: mantainer))\n"
+            + "          tags: \(String(describing: tags))\n"
+        
+        return s
     }
+    
 }

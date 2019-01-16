@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface MLutBoolModel : MLutNumberModel
 @property(nonnull)  NSNumber *nsvalue;
--(instancetype) initWith:(BOOL)state;
+- (instancetype) initWithBoolean:(BOOL)value;
 @end
 
 @interface MLutPublish : MLutBoolModel
