@@ -17,7 +17,7 @@ public class MLutFile {
     static public var key:[UInt8] = []
     
     public typealias Attributes = MLutAttributes
-        
+    
     public var attributes = MLutAttributes()
     
     public var cLuts:[MLutExposureMode:IMPCLut] = [MLutExposureMode.under:cLutIdentity(),

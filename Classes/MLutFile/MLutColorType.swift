@@ -9,18 +9,7 @@
 import Foundation
 
 public extension MLutColorType {
-    
-    public init?(meta: ImageMeta) throws {
-        let t = try meta.getField(MLutColorTypeModel.self, fieldId: nil) as! MLutColorTypeModel
-        self.init(rawValue: t.nstype.uint32Value)
-    }
-    
-    public var model:MLutColorTypeModel {
-        let m = MLutColorTypeModel()
-        m.nstype = NSNumber(value: self.rawValue)
-        return m
-    }
-    
+        
     public var caption:String {
         switch self {
         case .color:

@@ -10,17 +10,6 @@ import Foundation
 
 public extension MLutType {
     
-    public init?(meta: ImageMeta) throws {
-        let t = try meta.getField(MLutTypeModel.self, fieldId: nil) as! MLutTypeModel
-        self.init(rawValue: t.nstype.uint32Value)
-    }
-    
-    public var model:MLutTypeModel {
-        let m = MLutTypeModel()
-        m.nstype = NSNumber(value: self.rawValue)
-        return m
-    }
-    
     public var caption:String {
         switch self {
         case .mlut:

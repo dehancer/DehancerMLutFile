@@ -10,14 +10,5 @@ import Foundation
 import IMProcessing
 
 extension IMPBlendingMode {
-    public init?(meta: ImageMeta) throws {
-        let t = try meta.getField(MLutExpandModeModel.self, fieldId: nil) as! MLutExpandModeModel
-        self.init(rawValue: t.nsmode.uint32Value)
-    }
-    
-    public var model:MLutExpandModeModel {
-        let m = MLutExpandModeModel()
-        m.nsmode = NSNumber(value: self.rawValue)
-        return m
-    }
+    public var caption:String { return name }
 }

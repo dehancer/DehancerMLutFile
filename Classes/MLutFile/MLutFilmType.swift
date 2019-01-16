@@ -9,18 +9,7 @@
 import Foundation
 
 public extension MLutFilmType {
-    
-    public init?(meta: ImageMeta) throws {
-        let t = try meta.getField(MLutFilmTypeModel.self, fieldId: nil) as! MLutFilmTypeModel
-        self.init(rawValue: t.nstype.uint32Value)
-    }
-    
-    public var model:MLutFilmTypeModel {
-        let m = MLutFilmTypeModel()
-        m.nstype = NSNumber(value: self.rawValue)
-        return m
-    }
-    
+        
     public var caption:String {
         switch self {
         case .positive:

@@ -9,29 +9,13 @@
 #import "MLutBoolModel.h"
 
 @implementation MLutBoolModel
-@dynamic serial;
-@dynamic datetime;
 
-- (instancetype) initWith:(BOOL)state {
+- (instancetype) initWithBoolean:(BOOL)state {
     self = [super init];
     if (self) {
-        _nsstate = [NSNumber numberWithBool:state];
+        self.nsvalue = [NSNumber numberWithBool:state];
     }
     return self;
 }
 
-@end
-
-@implementation MLutPublish
-@dynamic nsstate;
-+ (NSString*) name {
-    return  @"mlutPublish";
-}
-@end
-
-@implementation MLutPrinted
-@dynamic nsstate;
-+ (NSString*) name {
-    return  @"mlutPrinted";
-}
 @end

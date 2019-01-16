@@ -6,18 +6,14 @@
 //  Copyright © 2018 Dehancer. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 #import <IMProcessingXMP/ImageMeta.h>
+#import "MLutNumberModel.h"
 
-@interface MLutBoolModel : ImageMetaField
-@property(nonnull)  NSNumber *nsstate;
--(instancetype) initWith:(BOOL)state;
+NS_ASSUME_NONNULL_BEGIN
+
+@interface MLutBoolModel : MLutNumberModel
+@property(nonnull)  NSNumber *nsvalue;
+- (instancetype) initWithBoolean:(BOOL)value;
 @end
 
-@interface MLutPublish : MLutBoolModel
-@property(nonnull)  NSNumber *nsstate;
-@end
-
-@interface MLutPrinted : MLutBoolModel
-@property(nonnull)  NSNumber *nsstate;
-@end
+NS_ASSUME_NONNULL_END
