@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <IMProcessingXMP/ImageMeta.h>
 
 typedef NS_ENUM(uint, MLutType) {
     MLutTypeMlut  = 0,
@@ -15,6 +14,3 @@ typedef NS_ENUM(uint, MLutType) {
     MLutTypePng   = 2
 };
 
-@interface MLutTypeModel : ImageMetaField
-@property(nonnull)  NSNumber *nstype;
-@end

@@ -12,18 +12,20 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface MLutAttributesModel : ImageMetaField
 
-@property(nonnull)  NSNumber *nsformatVersion;
+@property(nullable)  NSNumber *nsformatVersion;
 
-@property(nonnull)  NSNumber *nsrevision;
+@property(nullable)  NSNumber *nsrevision;
 
-@property(nonnull)  NSNumber *nslutType;
-@property(nonnull)  NSNumber *nslutSize;
-@property(nonnull)  NSNumber *nsisPublished;
-@property(nonnull)  NSNumber *nsisPrinted;
-@property(nonnull)  NSNumber *nscolorType;
-@property(nonnull)  NSNumber *nsfilmType;
-@property(nonnull)  NSNumber *nsexpandBlendingMode;
-@property(nonnull)  NSNumber *nsexpandImpact;
+@property(nullable)  NSDate  *nstimestamp;
+
+@property(nullable)  NSNumber *nslutType;
+@property(nullable)  NSNumber *nslutSize;
+@property(nullable)  NSNumber *nsisPublished;
+@property(nullable)  NSNumber *nsisPrinted;
+@property(nullable)  NSNumber *nscolorType;
+@property(nullable)  NSNumber *nsfilmType;
+@property(nullable)  NSNumber *nsexpandBlendingMode;
+@property(nullable)  NSNumber *nsexpandImpact;
 
 @property(nullable)  NSString *nsname;
 @property(nullable)  NSString *nsdescription;

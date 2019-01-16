@@ -18,8 +18,6 @@ public class MLutFile {
     
     public typealias Attributes = MLutAttributes
     
-    //public var type:MLutType              = .mlut
-
     public var attributes = MLutAttributes()
     
     public var cLuts:[MLutExposureMode:IMPCLut] = [MLutExposureMode.under:cLutIdentity(),

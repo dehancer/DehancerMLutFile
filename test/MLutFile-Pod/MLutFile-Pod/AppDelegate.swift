@@ -27,8 +27,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             
             Swift.print("\(attributes)")
 
-            attributes.revision += 1
-            attributes.author = "\( NSFullUserName()), \(attributes.revision)"
+            attributes.author = "\(NSFullUserName()), \(attributes.revision)"
             
             try attributes.store(url: url)
             

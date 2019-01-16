@@ -16,13 +16,4 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype) initWithBoolean:(BOOL)value;
 @end
 
-@interface MLutPublish : MLutBoolModel
-@property(nonnull)  NSNumber *nsvalue;
-@end
-
-@interface MLutPrinted : MLutBoolModel
-@property(nonnull)  NSNumber *nsvalue;
-@end
-
-
 NS_ASSUME_NONNULL_END
