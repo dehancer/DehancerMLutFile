@@ -27,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nullable)  NSNumber *nsexpandBlendingMode;
 @property(nullable)  NSNumber *nsexpandImpact;
 
-@property(nullable)  NSString *nsname;
+@property(nullable)  NSString *nscaption;
 @property(nullable)  NSString *nsdescription;
 @property(nullable)  NSString *nsauthor;
 @property(nullable)  NSString *nsmantainer;

@@ -64,9 +64,9 @@ public struct MLutAttributes {
         set { model.nsexpandImpact = NSNumber(value: newValue) }
     }
     
-    public var name:String? {
-        get { return model.nsname }
-        set { model.nsname = newValue }
+    public var caption:String? {
+        get { return model.nscaption }
+        set { model.nscaption = newValue }
     }
     
     public var lutDescription:String? {
@@ -91,11 +91,15 @@ public struct MLutAttributes {
     
     public init(){}
     
-    @discardableResult public func store(url: URL, extension ext: String = "xmp") throws -> ImageMeta {
-        model.nsrevision = NSNumber(value: revision + 1 )
-        model.nstimestamp = Date()
+    @discardableResult public func store(url: URL, extension ext: String = "xmp", keepRevision:Bool = false) throws -> ImageMeta {
+        
+        if !keepRevision {
+            model.nsrevision = NSNumber(value: revision + 1 )
+            model.nstimestamp = Date()
+        }
         
         let meta = ImageMeta(path: url.path, extension: ext, history:1)
+        
         try meta.setField(model)
         
         return meta
