@@ -68,6 +68,25 @@ public class MLutFile {
     let cipher = try! Blowfish(key: MLutFile.key, padding: .pkcs7)
 
     @discardableResult public func commit() throws -> MLutFile {
+        
+        let f = NSLocalizedString("File %@ must contain file caption", comment:"")
+        let captionErr = NSError(domain: "com.dehancer.error",
+                      code: Int(ENOENT),
+                      userInfo: [
+                        NSLocalizedDescriptionKey:
+                            String(format: String.localizedStringWithFormat(f, url.path)),
+                        NSLocalizedFailureReasonErrorKey:
+                            String(format: NSLocalizedString("File error", comment:""))
+            ])
+        
+        guard let caption = attributes.caption else {
+            throw captionErr
+        }
+        
+        if caption.isEmpty {
+            throw captionErr
+        }
+        
         switch attributes.type {
         case .cube:
             try saveAsFolderWithCube()
