@@ -30,7 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nullable)  NSString *nscaption;
 @property(nullable)  NSString *nsdescription;
 @property(nullable)  NSString *nsauthor;
-@property(nullable)  NSString *nsmantainer;
+@property(nullable)  NSString *nsmaintainer;
 @property(nullable)  NSString *nstags;
 
 @end
