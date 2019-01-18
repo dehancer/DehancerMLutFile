@@ -17,10 +17,12 @@ public struct MLutAttributes {
     }
     
     public var revision:Int {
+        set { model.nsrevision = NSNumber(value: newValue )}
         get { return model.nsrevision?.intValue ?? 1 }
     }
     
     public var timestamp:Date {
+        set { model.nstimestamp = newValue}
         get { return model.nstimestamp ?? Date() }
     }
     
@@ -79,9 +81,9 @@ public struct MLutAttributes {
         set { model.nsauthor = newValue }
     }
     
-    public var mantainer:String? {
-        get { return model.nsmantainer }
-        set { model.nsmantainer = newValue }
+    public var maintainer:String? {
+        get { return model.nsmaintainer }
+        set { model.nsmaintainer = newValue }
     }
     
     public var tags:String? {
@@ -91,12 +93,12 @@ public struct MLutAttributes {
     
     public init(){}
     
-    @discardableResult public func store(url: URL, extension ext: String = "xmp", keepRevision:Bool = false) throws -> ImageMeta {
+    @discardableResult public func store(url: URL, extension ext: String = "xmp") throws -> ImageMeta {
         
-        if !keepRevision {
-            model.nsrevision = NSNumber(value: revision + 1 )
-            model.nstimestamp = Date()
-        }
+//        if !keepRevision {
+//            model.nsrevision = NSNumber(value: revision + 1 )
+//            model.nstimestamp = Date()
+//        }
         
         let meta = ImageMeta(path: url.path, extension: ext, history:1)
         
@@ -134,7 +136,7 @@ extension MLutAttributes: CustomStringConvertible {
             + "  blendingMode: \(expandBlendingMode.caption)\n"
             + "  expandImpact: \(expandImpact)\n"
             + "        author: \(String(describing: author))\n"
-            + "     mantainer: \(String(describing: mantainer))\n"
+            + "     maintainer: \(String(describing: maintainer))\n"
             + "          tags: \(String(describing: tags))\n"
         
         return s
