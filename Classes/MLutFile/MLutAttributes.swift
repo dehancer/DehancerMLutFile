@@ -36,7 +36,7 @@ public struct MLutAttributes {
         set { model.nsisPrinted = NSNumber(value: newValue)}
     }
     
-    public var type:MLutType   {
+    public var fileType:MLutType   {
         get { return MLutType(rawValue: uint(model.nslutType?.uintValue ?? UInt(MLutType.mlut.rawValue))) ?? .mlut }
         set { model.nslutType = NSNumber(value: newValue.rawValue) }
     }
@@ -65,6 +65,11 @@ public struct MLutAttributes {
         get { return model.nsexpandImpact?.floatValue ?? 0 }
         set { model.nsexpandImpact = NSNumber(value: newValue) }
     }
+    
+//    public var isEncrypted:Bool   {
+//        get { return model.nslutIsEncrypted?.boolValue ?? true }
+//        set { model.nslutIsEncrypted = NSNumber(value: newValue) }
+//    }
     
     public var caption:String? {
         get { return model.nscaption }
@@ -129,14 +134,15 @@ extension MLutAttributes: CustomStringConvertible {
             + "     timestamp: \(timestamp)\n"
             + "    isPprinted: \(isPrinted)\n"
             + "   isPublished: \(isPublished)\n"
-            + "          type: \(type.caption)\n"
+            + "          type: \(fileType.caption)\n"
             + "          size: \(lutSize.caption)\n"
             + "     colorType: \(colorType.caption)\n"
             + "      filmType: \(filmType.caption)\n"
             + "  blendingMode: \(expandBlendingMode.caption)\n"
             + "  expandImpact: \(expandImpact)\n"
+            //+ "     encrypted: \(isEncrypted)\n"
             + "        author: \(String(describing: author))\n"
-            + "     maintainer: \(String(describing: maintainer))\n"
+            + "    maintainer: \(String(describing: maintainer))\n"
             + "          tags: \(String(describing: tags))\n"
         
         return s
