@@ -30,7 +30,6 @@ public class MLutFile {
     
     static public func restore(url:URL, context:IMPContext?=nil) throws -> MLutFile? {
         let manager = FileManager()
-        debugPrint("#### restore ", url)
         if manager.fileExists(atPath: url.path) {
             if url.pathExtension == MLutType.mlut.extention {
                 let file = MLutFile(url: url, type: .mlut, context:context)
@@ -195,9 +194,7 @@ public class MLutFile {
         }
         
         if  let a = MLutFile.dataCache.object(forKey: url.absoluteString as NSString) as? [MLutExposureMode:IMPCLut] {
-            
-            debugPrint("### restore lut: ")
-
+        
             cLuts = a
             return self
         }
@@ -222,16 +219,23 @@ public class MLutFile {
         
         
         for (k,l) in model.clutList.enumerated() {
-            //let data =  attributes.isEncrypted ? Data(bytes: try cipher.decrypt(Array(base64: (l as! String)))) : Data(base64Encoded: l as! String)!
             let data =  Data(bytes: try cipher.decrypt(Array(base64: (l as! String)))) 
-            let image = NSImage(data: data)!
-            let mode = MLutExposureMode(index: k)!
-            debugPrint("### read lut: ", data.count, mode)
-            let lut = try IMPCLut(context: context, haldImage: image)
-            cLuts[mode] = try lut.convert(to: .lut_3d)
+            if let image = NSImage(data: data), let mode = MLutExposureMode(index: k) {
+                let lut = try IMPCLut(context: context, haldImage: image)
+                cLuts[mode] = try lut.convert(to: .lut_3d)
+            }
+            else {
+                throw  NSError(domain: "com.dehancer.error",
+                               code: Int(EINVAL),
+                               userInfo: [
+                                NSLocalizedDescriptionKey:
+                                    String(format: NSLocalizedString("Type of lut data is not supported", comment:"")),
+                                NSLocalizedFailureReasonErrorKey:
+                                    String(format: NSLocalizedString("Open file error", comment:""))
+                    ])
+            }
         }
         
-       
         MLutFile.dataCache.setObject(cLuts as AnyObject, forKey: url.absoluteString as NSString)
         
         return self
