@@ -219,20 +219,31 @@ public class MLutFile {
         
         
         for (k,l) in model.clutList.enumerated() {
-            let data =  Data(bytes: try cipher.decrypt(Array(base64: (l as! String)))) 
-            if let image = NSImage(data: data), let mode = MLutExposureMode(index: k) {
-                let lut = try IMPCLut(context: context, haldImage: image)
-                cLuts[mode] = try lut.convert(to: .lut_3d)
-            }
-            else {
+            let data =  Data(bytes: try cipher.decrypt(Array(base64: (l as! String))))
+            guard let mode = MLutExposureMode(index: k) ?? MLutExposureMode(rawValue: k) else {
                 throw  NSError(domain: "com.dehancer.error",
                                code: Int(EINVAL),
                                userInfo: [
                                 NSLocalizedDescriptionKey:
-                                    String(format: NSLocalizedString("Type of lut data is not supported", comment:"")),
+                                    String(format: NSLocalizedString("Type lut exposure mode: %i is not supported", comment:""), k),
                                 NSLocalizedFailureReasonErrorKey:
                                     String(format: NSLocalizedString("Open file error", comment:""))
                     ])
+            }
+            if let image = NSImage(data: data) {
+                let lut = try IMPCLut(context: context, haldImage: image)
+                cLuts[mode] = try lut.convert(to: .lut_3d)
+            }
+            else {
+                let error = NSError(domain: "com.dehancer.error",
+                               code: Int(EINVAL),
+                               userInfo: [
+                                NSLocalizedDescriptionKey:
+                                    String(format: NSLocalizedString("Type of lut data[%i] is not supported", comment:""), k),
+                                NSLocalizedFailureReasonErrorKey:
+                                    String(format: NSLocalizedString("Open file error", comment:""))
+                    ])
+                debugPrint("MLut.restore \(url) error: ", error)
             }
         }
         
