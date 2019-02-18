@@ -24,6 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nullable)  NSNumber *nsisPrinted;
 @property(nullable)  NSNumber *nscolorType;
 @property(nullable)  NSNumber *nsfilmType;
+@property(nullable)  NSNumber *nsISOIndex;
 @property(nullable)  NSNumber *nsexpandBlendingMode;
 @property(nullable)  NSNumber *nsexpandImpact;
 

@@ -73,7 +73,8 @@ public class MLutFile {
 
     @discardableResult public func commit() throws -> MLutFile {
         
-        let f = NSLocalizedString("File %@ must contain file caption", comment:"")
+        var f = NSLocalizedString("File %@ must contain file caption", comment:"")
+       
         let captionErr = NSError(domain: "com.dehancer.error",
                       code: Int(ENOENT),
                       userInfo: [
@@ -89,6 +90,21 @@ public class MLutFile {
         
         if caption.isEmpty {
             throw captionErr
+        }
+        
+        
+        f = NSLocalizedString("File %@ must contain a right ISO Index, current is: %i", comment:"")
+        let isoErr = NSError(domain: "com.dehancer.error",
+                                 code: Int(ENOENT),
+                                 userInfo: [
+                                    NSLocalizedDescriptionKey:
+                                        String(format: String.localizedStringWithFormat(f, url.path, attributes.ISOIndex)),
+                                    NSLocalizedFailureReasonErrorKey:
+                                        String(format: NSLocalizedString("File error", comment:""))
+            ])
+        
+        if attributes.ISOIndex <= 0 || attributes.ISOIndex > 64000 {
+            throw isoErr
         }
         
         switch self.type {
@@ -110,26 +126,19 @@ public class MLutFile {
         
         for l in cLuts {
             
-            var _2d:IMPImageProvider = try l.value.convert(to: .lut_2d, lutSize: attributes.lutSize.size)
+            var _2d:IMPImageProvider = try l.value.convert(to: .lut_2d, lutSize: self.attributes.lutSize.size, format: .float)
             
-            if let data = _2d.representation(using: .jpeg, compression: 1, reflect: true) {
-                let enc = try cipher.encrypt(data.bytes)
+            if let data = try _2d.representation(using: .png, compression: 1, reflect: true) {
+                let enc = try self.cipher.encrypt(data.bytes)
                 model.clutList.append(enc.toBase64()!)
             }
-//            if let data = _2d.representation(using: .png, reflect: true){
-//                if attributes.isEncrypted {
-//                    let enc = try cipher.encrypt(data.bytes)
-//                    model.clutList.append(enc.toBase64()!)
-//                }
-//                else {
-//                    model.clutList.append(data.base64EncodedString())
-//                }
-//            }
+                
             else {
                 model.clutList.append("".bytes.toBase64() ?? "")
             }
             
             try meta.setField(model)
+            
         }
     }
     
@@ -188,15 +197,17 @@ public class MLutFile {
     }
     
     @discardableResult private func restore() throws -> MLutFile {
-        MLutFile.lock.lock()
-        defer {
-            MLutFile.lock.unlock()
-        }
-        
-        if  let a = MLutFile.dataCache.object(forKey: url.absoluteString as NSString) as? [MLutExposureMode:IMPCLut] {
-        
-            cLuts = a
-            return self
+        do {
+            MLutFile.lock.lock()
+            defer {
+                MLutFile.lock.unlock()
+            }
+            
+            if  let a = MLutFile.dataCache.object(forKey: url.absoluteString as NSString) as? [MLutExposureMode:IMPCLut] {
+                
+                cLuts = a
+                return self
+            }
         }
         
         let meta = try attributes.restore(url: url, extension: MLutType.mlut.extention)

@@ -21,6 +21,11 @@ public struct MLutAttributes {
         get { return model.nsrevision?.intValue ?? 1 }
     }
     
+    public var ISOIndex:Int {
+        set { model.nsISOIndex = NSNumber(value: newValue )}
+        get { return model.nsISOIndex?.intValue ?? -1 }
+    }
+    
     public var timestamp:Date {
         set { model.nstimestamp = newValue}
         get { return model.nstimestamp ?? Date() }
@@ -138,6 +143,7 @@ extension MLutAttributes: CustomStringConvertible {
             + "          size: \(lutSize.caption)\n"
             + "     colorType: \(colorType.caption)\n"
             + "      filmType: \(filmType.caption)\n"
+            + "     ISO index: \(ISOIndex)\n"
             + "  blendingMode: \(expandBlendingMode.caption)\n"
             + "  expandImpact: \(expandImpact)\n"
             //+ "     encrypted: \(isEncrypted)\n"
