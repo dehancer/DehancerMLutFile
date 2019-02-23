@@ -25,15 +25,15 @@ public class MLutFile {
     public var type:MLutType = .mlut
     
     public lazy var cLuts:[MLutExposureMode:IMPCLut] = [MLutExposureMode.under:self.cLutIdentity(),
-                                               MLutExposureMode.normal:self.cLutIdentity(),
-                                               MLutExposureMode.over:self.cLutIdentity()]
+                                                        MLutExposureMode.normal:self.cLutIdentity(),
+                                                        MLutExposureMode.over:self.cLutIdentity()]
     
-    static public func restore(url:URL, context:IMPContext?=nil) throws -> MLutFile? {
+    static public func restore(url:URL, context:IMPContext?=nil, discard cache:Bool = false) throws -> MLutFile? {
         let manager = FileManager()
         if manager.fileExists(atPath: url.path) {
             if url.pathExtension == MLutType.mlut.extention {
                 let file = MLutFile(url: url, type: .mlut, context:context)
-                try file.restore()
+                try file.restore(discard: cache)
                 return file
             }
             let f = NSLocalizedString("File %@ is not mlut format, could not be imported", comment:"")
@@ -57,8 +57,8 @@ public class MLutFile {
             ])
     }
     
-    static public func restore(path:String, context:IMPContext?=nil) throws -> MLutFile? {
-        return try restore(url: URL(fileURLWithPath: path), context:context)
+    static public func restore(path:String, context:IMPContext?=nil, discard cache:Bool = false) throws -> MLutFile? {
+        return try restore(url: URL(fileURLWithPath: path), context:context, discard: cache)
     }
     
     static public func new(url:URL, type:MLutType = .mlut, context:IMPContext?=nil) -> MLutFile {
@@ -70,18 +70,18 @@ public class MLutFile {
     }
     
     let cipher = try! Blowfish(key: MLutFile.key, padding: .pkcs7)
-
+    
     @discardableResult public func commit() throws -> MLutFile {
         
         var f = NSLocalizedString("File %@ must contain file caption", comment:"")
-       
+        
         let captionErr = NSError(domain: "com.dehancer.error",
-                      code: Int(ENOENT),
-                      userInfo: [
-                        NSLocalizedDescriptionKey:
-                            String(format: String.localizedStringWithFormat(f, url.path)),
-                        NSLocalizedFailureReasonErrorKey:
-                            String(format: NSLocalizedString("File error", comment:""))
+                                 code: Int(ENOENT),
+                                 userInfo: [
+                                    NSLocalizedDescriptionKey:
+                                        String(format: String.localizedStringWithFormat(f, url.path)),
+                                    NSLocalizedFailureReasonErrorKey:
+                                        String(format: NSLocalizedString("File error", comment:""))
             ])
         
         guard let caption = attributes.caption else {
@@ -95,12 +95,12 @@ public class MLutFile {
         
         f = NSLocalizedString("File %@ must contain a right ISO Index, current is: %i", comment:"")
         let isoErr = NSError(domain: "com.dehancer.error",
-                                 code: Int(ENOENT),
-                                 userInfo: [
-                                    NSLocalizedDescriptionKey:
-                                        String(format: String.localizedStringWithFormat(f, url.path, attributes.ISOIndex)),
-                                    NSLocalizedFailureReasonErrorKey:
-                                        String(format: NSLocalizedString("File error", comment:""))
+                             code: Int(ENOENT),
+                             userInfo: [
+                                NSLocalizedDescriptionKey:
+                                    String(format: String.localizedStringWithFormat(f, url.path, attributes.ISOIndex)),
+                                NSLocalizedFailureReasonErrorKey:
+                                    String(format: NSLocalizedString("File error", comment:""))
             ])
         
         if attributes.ISOIndex <= 0 || attributes.ISOIndex > 64000 {
@@ -114,30 +114,35 @@ public class MLutFile {
             try saveAsmLut()
         case .png:
             try saveAsFolderWithPng()
-       }
+        }
         return self
     }
     
     private func saveAsmLut() throws {
-        
-        let meta = try attributes.store(url: url, extension: MLutType.mlut.extention)
-
-        let model = MLutModel()
-        
-        for l in cLuts {
+        do {
+            let meta = try attributes.store(url: url, extension: MLutType.mlut.extention)
             
-            var _2d:IMPImageProvider = try l.value.convert(to: .lut_2d, lutSize: self.attributes.lutSize.size, format: .float)
+            let model = MLutModel()
             
-            if let data = try _2d.representation(using: .png, compression: 1, reflect: true) {
-                let enc = try self.cipher.encrypt(data.bytes)
-                model.clutList.append(enc.toBase64()!)
-            }
+            for l in cLuts {
                 
-            else {
-                model.clutList.append("".bytes.toBase64() ?? "")
+                var _2d:IMPImageProvider = try l.value.convert(to: .lut_2d, lutSize: self.attributes.lutSize.size, format: .float)
+                
+                if let data = try _2d.representation(using: .png, compression: 1, reflect: true) {
+                    let enc = try self.cipher.encrypt(data.bytes)
+                    model.clutList.append(enc.toBase64()!)
+                }
+                    
+                else {
+                    model.clutList.append("".bytes.toBase64() ?? "")
+                }
+                
+                try meta.setField(model)
+                
             }
-            
-            try meta.setField(model)
+        }
+        catch {
+            debugPrint("saveAsmLut: ", error)
             
         }
     }
@@ -147,7 +152,7 @@ public class MLutFile {
         var isDir : ObjCBool = false
         
         let _url = URL(fileURLWithPath: self.url.deletingPathExtension().path+"\(suffix)")
-
+        
         if manager.fileExists(atPath: _url.path, isDirectory: &isDir) {
             if !isDir.boolValue {
                 let f = NSLocalizedString("File %@ is a regular file", comment:"")
@@ -196,21 +201,23 @@ public class MLutFile {
         self.context = context ?? IMPContext()
     }
     
-    @discardableResult private func restore() throws -> MLutFile {
-        do {
+    @discardableResult private func restore(discard:Bool) throws -> MLutFile {
+        
+        let meta = try attributes.restore(url: url, extension: MLutType.mlut.extention)
+
+        if !discard {
+            
             MLutFile.lock.lock()
+            
             defer {
                 MLutFile.lock.unlock()
             }
             
             if  let a = MLutFile.dataCache.object(forKey: url.absoluteString as NSString) as? [MLutExposureMode:IMPCLut] {
-                
                 cLuts = a
                 return self
             }
         }
-        
-        let meta = try attributes.restore(url: url, extension: MLutType.mlut.extention)
         
         switch self.type {
         case .mlut:
@@ -225,9 +232,8 @@ public class MLutFile {
                                 String(format: NSLocalizedString("Open file error", comment:""))
                 ])
         }
-
-        let model = try meta.getField(MLutModel.self, fieldId: nil) as! MLutModel
         
+        let model = try meta.getField(MLutModel.self, fieldId: nil) as! MLutModel
         
         for (k,l) in model.clutList.enumerated() {
             let data =  Data(bytes: try cipher.decrypt(Array(base64: (l as! String))))
@@ -247,12 +253,12 @@ public class MLutFile {
             }
             else {
                 let error = NSError(domain: "com.dehancer.error",
-                               code: Int(EINVAL),
-                               userInfo: [
-                                NSLocalizedDescriptionKey:
-                                    String(format: NSLocalizedString("Type of lut data[%i] is not supported", comment:""), k),
-                                NSLocalizedFailureReasonErrorKey:
-                                    String(format: NSLocalizedString("Open file error", comment:""))
+                                    code: Int(EINVAL),
+                                    userInfo: [
+                                        NSLocalizedDescriptionKey:
+                                            String(format: NSLocalizedString("Type of lut data[%i] is not supported", comment:""), k),
+                                        NSLocalizedFailureReasonErrorKey:
+                                            String(format: NSLocalizedString("Open file error", comment:""))
                     ])
                 debugPrint("MLut.restore \(url) error: ", error)
             }

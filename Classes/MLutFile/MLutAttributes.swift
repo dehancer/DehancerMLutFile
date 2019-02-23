@@ -10,7 +10,7 @@ import Foundation
 import IMProcessingXMP
 import IMProcessing
 
-public struct MLutAttributes {
+public class MLutAttributes {
     
     public var formatVersion:Int {
         get { return model.nsformatVersion?.intValue ?? 1 }
@@ -117,7 +117,7 @@ public struct MLutAttributes {
         return meta
     }
     
-    @discardableResult public mutating func restore(url: URL, extension ext: String = "xmp") throws -> ImageMeta {
+    @discardableResult public func restore(url: URL, extension ext: String = "xmp") throws -> ImageMeta {
         
         let meta = ImageMeta(path: url.path, extension: ext, history:1)
         
@@ -136,6 +136,7 @@ extension MLutAttributes: CustomStringConvertible {
             
             + " formatVersion: \(formatVersion)\n"
             + "      revision: \(revision)\n"
+            + "lutDescription: \(lutDescription ?? "-")\n"
             + "     timestamp: \(timestamp)\n"
             + "    isPprinted: \(isPrinted)\n"
             + "   isPublished: \(isPublished)\n"
@@ -147,9 +148,9 @@ extension MLutAttributes: CustomStringConvertible {
             + "  blendingMode: \(expandBlendingMode.caption)\n"
             + "  expandImpact: \(expandImpact)\n"
             //+ "     encrypted: \(isEncrypted)\n"
-            + "        author: \(String(describing: author))\n"
-            + "    maintainer: \(String(describing: maintainer))\n"
-            + "          tags: \(String(describing: tags))\n"
+            + "        author: \(author ?? "-")\n"
+            + "    maintainer: \(maintainer ?? "-")\n"
+            + "          tags: \(tags ?? "-")\n"
         
         return s
     }
