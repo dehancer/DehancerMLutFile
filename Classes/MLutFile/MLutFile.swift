@@ -124,9 +124,15 @@ public class MLutFile {
             
             let model = MLutModel()
             
-            for l in cLuts {
+            let count = cLuts.count
+            for i in 0..<count  {
                 
-                var _2d:IMPImageProvider = try l.value.convert(to: .lut_2d, lutSize: self.attributes.lutSize.size, format: .float)
+                let mode = MLutExposureMode(index: i)!
+                let l = cLuts[mode]
+               
+                debugPrint(" save lut: ", mode, l)
+                
+                var _2d:IMPImageProvider = try l!.convert(to: .lut_2d, lutSize: self.attributes.lutSize.size, format: .float)
                 
                 if let data = try _2d.representation(using: .png, compression: 1, reflect: true) {
                     let enc = try self.cipher.encrypt(data.bytes)
@@ -247,9 +253,12 @@ public class MLutFile {
                                     String(format: NSLocalizedString("Open file error", comment:""))
                     ])
             }
+                        
             if let image = NSImage(data: data) {
                 let lut = try IMPCLut(context: context, haldImage: image)
                 cLuts[mode] = try lut.convert(to: .lut_3d)
+                cLuts[mode]?.texture?.label = mode.name             
+
             }
             else {
                 let error = NSError(domain: "com.dehancer.error",
