@@ -11,6 +11,7 @@
 typedef NS_ENUM(uint, MLutType) {
     MLutTypeMlut  = 0,
     MLutTypeCube  = 1,
-    MLutTypePng   = 2
+    MLutTypePng   = 2,
+    MLutTypeClut  = 5
 };
 

@@ -114,6 +114,8 @@ public class MLutFile {
             try saveAsmLut()
         case .png:
             try saveAsFolderWithPng()
+        default:
+            break
         }
         return self
     }
