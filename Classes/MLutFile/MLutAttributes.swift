@@ -31,11 +31,6 @@ public class MLutAttributes {
         get { return model.nstimestamp ?? Date() }
     }
     
-    public var isPublished:Bool  {
-        get { return model.nsisPublished?.boolValue ?? false}
-        set { model.nsisPublished = NSNumber(value: newValue)}
-    }
-    
     public var isPrinted:Bool   {
         get { return model.nsisPrinted?.boolValue ?? false}
         set { model.nsisPrinted = NSNumber(value: newValue)}
@@ -160,7 +155,6 @@ extension MLutAttributes: CustomStringConvertible {
             + "lutDescription: \(lutDescription ?? "-")\n"
             + "     timestamp: \(timestamp)\n"
             + "    isPprinted: \(isPrinted)\n"
-            + "   isPublished: \(isPublished)\n"
             + "          type: \(fileType.caption)\n"
             + "          size: \(lutSize.caption)\n"
             + "     colorType: \(colorType.caption)\n"

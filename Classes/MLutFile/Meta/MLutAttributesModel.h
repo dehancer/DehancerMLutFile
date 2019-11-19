@@ -17,7 +17,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nullable)  NSDate  *nstimestamp;
 @property(nullable)  NSNumber *nslutType;
 @property(nullable)  NSNumber *nslutSize;
-@property(nullable)  NSNumber *nsisPublished;
 @property(nullable)  NSNumber *nsisPrinted;
 @property(nullable)  NSNumber *nscolorType;
 @property(nullable)  NSNumber *nsfilmType;
