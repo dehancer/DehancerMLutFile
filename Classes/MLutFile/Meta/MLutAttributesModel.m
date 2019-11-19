@@ -16,5 +16,20 @@
     return  @"mlutAttributes";
 }
 
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        _nsrevision = @(0);
+        _nstimestamp = [NSDate new];       
+        _nsid = @("");
+        _nsisPhotoEnabled = false;
+        _nsisVideoEnabled = false;
+        
+    }
+    return self;
+}
+
+
 
 @end

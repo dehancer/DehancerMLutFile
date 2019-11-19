@@ -71,10 +71,10 @@ public class MLutAttributes {
         set { model.nsexpandImpact = NSNumber(value: newValue) }
     }
     
-//    public var isEncrypted:Bool   {
-//        get { return model.nslutIsEncrypted?.boolValue ?? true }
-//        set { model.nslutIsEncrypted = NSNumber(value: newValue) }
-//    }
+    public var id:String {
+        get { return model.nsid }
+        set { model.nsid = newValue }
+    }
     
     public var caption:String? {
         get { return model.nscaption }
@@ -101,6 +101,16 @@ public class MLutAttributes {
         set { model.nstags = newValue }
     }
     
+    public var isVideoEnabled:Bool {
+        set { model.nsisVideoEnabled = NSNumber(booleanLiteral: newValue) }
+        get { return model.nsisVideoEnabled.boolValue  }
+    }
+    
+    public var isPhotoEnabled:Bool {
+        set { model.nsisPhotoEnabled = NSNumber(booleanLiteral: newValue) }
+        get { return model.nsisPhotoEnabled.boolValue  }
+    }
+        
     public init(){}
     
     @discardableResult public func store(url: URL, extension ext: String = "xmp") throws -> ImageMeta {
@@ -111,6 +121,10 @@ public class MLutAttributes {
 //        }
         
         let meta = ImageMeta(path: url.path, extension: ext, history:1)
+                
+        if id.isEmpty   {
+            id = caption ?? ""
+        }
         
         try meta.setField(model)
         
@@ -120,9 +134,14 @@ public class MLutAttributes {
     @discardableResult public func restore(url: URL, extension ext: String = "xmp") throws -> ImageMeta {
         
         let meta = ImageMeta(path: url.path, extension: ext, history:1)
-        
+            
         model = try meta.getField(MLutAttributesModel.self, fieldId: nil) as! MLutAttributesModel
         
+        if id.isEmpty   {
+            id = caption ?? ""
+            try meta.setField(model)
+        }
+                
         return meta
     }
     
@@ -134,6 +153,8 @@ extension MLutAttributes: CustomStringConvertible {
     public var description: String {
         var s = ""
             
+            + "            id: \(id)\n"
+            + "       caption: \(caption)\n"
             + " formatVersion: \(formatVersion)\n"
             + "      revision: \(revision)\n"
             + "lutDescription: \(lutDescription ?? "-")\n"
@@ -147,7 +168,6 @@ extension MLutAttributes: CustomStringConvertible {
             + "     ISO index: \(ISOIndex)\n"
             + "  blendingMode: \(expandBlendingMode.caption)\n"
             + "  expandImpact: \(expandImpact)\n"
-            //+ "     encrypted: \(isEncrypted)\n"
             + "        author: \(author ?? "-")\n"
             + "    maintainer: \(maintainer ?? "-")\n"
             + "          tags: \(tags ?? "-")\n"
