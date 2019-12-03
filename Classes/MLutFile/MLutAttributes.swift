@@ -9,6 +9,7 @@
 import Foundation
 import IMProcessingXMP
 import IMProcessing
+import DehancerCommon
 
 public class MLutAttributes {
     
@@ -105,7 +106,18 @@ public class MLutAttributes {
         set { model.nsisPhotoEnabled = NSNumber(booleanLiteral: newValue) }
         get { return model.nsisPhotoEnabled.boolValue  }
     }
-        
+      
+    public var licenseMatrix:[LicenseType] {
+        set {
+            model.nslicenseMatrix = newValue.map {
+                return $0.rawValue
+            }
+        }
+        get { return model.nslicenseMatrix?.compactMap{
+            return LicenseType(rawValue: $0 as! Int32)
+            } ?? [] }
+    }
+    
     public init(){}
     
     @discardableResult public func store(url: URL, extension ext: String = "xmp") throws -> ImageMeta {

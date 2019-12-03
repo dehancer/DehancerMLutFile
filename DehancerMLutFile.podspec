@@ -18,6 +18,7 @@ Pod::Spec.new do |s|
     s.dependency  'IMProcessing'
     s.dependency  'Surge'
     s.dependency  'CryptoSwift'
+    s.dependency  'DehancerCommon'
 
     s.requires_arc = true
 

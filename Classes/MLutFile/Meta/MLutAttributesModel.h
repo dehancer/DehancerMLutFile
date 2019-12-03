@@ -34,6 +34,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonnull)  NSNumber *nsisVideoEnabled;
 @property(nonnull)  NSNumber *nsisPhotoEnabled;
 
+@property(nullable) NSArray  *nslicenseMatrix;
 
 @end
 
