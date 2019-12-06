@@ -129,9 +129,9 @@ public class MLutAttributes {
         
         let meta = ImageMeta(path: url.path, extension: ext, history:1)
                 
-        if id.isEmpty   {
-            id = caption ?? ""
-        }
+//        if id.isEmpty   {
+//            id = caption ?? ""
+//        }
         
         try meta.setField(model)
         
@@ -144,10 +144,10 @@ public class MLutAttributes {
             
         model = try meta.getField(MLutAttributesModel.self, fieldId: nil) as! MLutAttributesModel
         
-        if id.isEmpty   {
-            id = caption ?? ""
-            try meta.setField(model)
-        }
+//        if id.isEmpty   {
+//            id = caption ?? ""
+//            try meta.setField(model)
+//        }
                 
         return meta
     }
