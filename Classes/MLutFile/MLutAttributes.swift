@@ -37,6 +37,11 @@ public class MLutAttributes {
         set { model.nsisPrinted = NSNumber(value: newValue)}
     }
     
+    public var isPrintMedia:Bool   {
+        get { return model.nsisPrintMedia?.boolValue ?? false}
+        set { model.nsisPrintMedia = NSNumber(value: newValue)}
+    }
+    
     public var fileType:MLutType   {
         get { return MLutType(rawValue: uint(model.nslutType?.uintValue ?? UInt(MLutType.mlut.rawValue))) ?? .mlut }
         set { model.nslutType = NSNumber(value: newValue.rawValue) }
@@ -166,7 +171,8 @@ extension MLutAttributes: CustomStringConvertible {
             + "      revision: \(revision)\n"
             + "lutDescription: \(lutDescription ?? "-")\n"
             + "     timestamp: \(timestamp)\n"
-            + "    isPprinted: \(isPrinted)\n"
+            + "    isPrinted: \(isPrinted)\n"
+            + "    isPrintMedia: \(isPrintMedia)\n"
             + "          type: \(fileType.caption)\n"
             + "          size: \(lutSize.caption)\n"
             + "     colorType: \(colorType.caption)\n"

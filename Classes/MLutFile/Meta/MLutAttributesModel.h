@@ -31,6 +31,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nullable)  NSString *nsmaintainer;
 @property(nullable)  NSString *nstags;
 
+@property(nullable)  NSNumber *nsisPrintMedia;
+
 @property(nonnull)  NSNumber *nsisVideoEnabled;
 @property(nonnull)  NSNumber *nsisPhotoEnabled;
 

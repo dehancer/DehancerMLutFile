@@ -25,6 +25,7 @@
         _nsid = @("");
         _nsisPhotoEnabled = false;
         _nsisVideoEnabled = false;
+        _nsisPrintMedia = false;
         
     }
     return self;
