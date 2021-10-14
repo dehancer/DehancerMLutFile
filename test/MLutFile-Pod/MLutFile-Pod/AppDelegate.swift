@@ -21,7 +21,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             
             let url = URL(fileURLWithPath: "/tmp/mlutfile-pod-test")
             
-            var attributes = MLutAttributes()
+            let attributes = MLutAttributes()
             
             try attributes.restore(url:url)
             

@@ -1,7 +1,7 @@
 # source 'https://github.com/CocoaPods/Specs.git'
 use_frameworks!
 inhibit_all_warnings!
-platform :osx, '10.13'
+platform :osx, '10.14'
 
 target 'MLutFile-Pod' do
     inherit! :search_paths
@@ -13,7 +13,8 @@ target 'MLutFile-Pod' do
     pod 'IMProcessing', :path => '../../../IMProcessing' #:git => 'https://github.com/dehancer/IMProcessing'
     pod 'Surge', :path => '../../../Surge' #:git => 'https://github.com/dehancer/Surge'
     pod 'DehancerMLutFile', :path => '../../'
-    
+    pod 'DehancerCommon', :path => '../../../Dehancer-Plugins/dehancer-common-cpp'
+
 end
 
 target 'MLutFile-PodTests' do

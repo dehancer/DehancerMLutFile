@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -172,11 +172,12 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1010;
-				LastUpgradeCheck = 1010;
+				LastUpgradeCheck = 1130;
 				ORGANIZATIONNAME = Dehancer;
 				TargetAttributes = {
 					313E13FB21EA81AA00D9A281 = {
 						CreatedOnToolsVersion = 10.1;
+						LastSwiftMigration = 1130;
 						SystemCapabilities = {
 							com.apple.Sandbox = {
 								enabled = 0;
@@ -185,6 +186,7 @@
 					};
 					313E140B21EA81AA00D9A281 = {
 						CreatedOnToolsVersion = 10.1;
+						LastSwiftMigration = 1130;
 						TestTargetID = 313E13FB21EA81AA00D9A281;
 					};
 				};
@@ -278,24 +280,11 @@
 			files = (
 			);
 			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-MLutFile-Pod/Pods-MLutFile-Pod-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/CryptoSwift/CryptoSwift.framework",
-				"${BUILT_PRODUCTS_DIR}/DehancerMLutFile/DehancerMLutFile.framework",
-				"${BUILT_PRODUCTS_DIR}/IMProcessing/IMProcessing.framework",
-				"${BUILT_PRODUCTS_DIR}/IMProcessingXMP/IMProcessingXMP.framework",
-				"${BUILT_PRODUCTS_DIR}/Surge/Surge.framework",
+				"${PODS_ROOT}/Target Support Files/Pods-MLutFile-Pod/Pods-MLutFile-Pod-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-			);
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CryptoSwift.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DehancerMLutFile.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IMProcessing.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IMProcessingXMP.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Surge.framework",
+				"${PODS_ROOT}/Target Support Files/Pods-MLutFile-Pod/Pods-MLutFile-Pod-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -466,7 +455,8 @@
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = TCA85S5T49;
+				DEVELOPMENT_TEAM = DQ37UR7F9A;
+				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = "MLutFile-Pod/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -476,7 +466,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG DEBUG_XMP";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -488,7 +478,8 @@
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = TCA85S5T49;
+				DEVELOPMENT_TEAM = DQ37UR7F9A;
+				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = "MLutFile-Pod/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -497,7 +488,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "Dehancer.MLutFile-Pod";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
@@ -510,7 +501,7 @@
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = TCA85S5T49;
+				DEVELOPMENT_TEAM = DQ37UR7F9A;
 				INFOPLIST_FILE = "MLutFile-PodTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -520,7 +511,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "Dehancer.MLutFile-PodTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MLutFile-Pod.app/Contents/MacOS/MLutFile-Pod";
 			};
 			name = Debug;
@@ -534,7 +525,7 @@
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = TCA85S5T49;
+				DEVELOPMENT_TEAM = DQ37UR7F9A;
 				INFOPLIST_FILE = "MLutFile-PodTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -544,7 +535,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "Dehancer.MLutFile-PodTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MLutFile-Pod.app/Contents/MacOS/MLutFile-Pod";
 			};
 			name = Release;

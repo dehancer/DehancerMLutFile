@@ -132,8 +132,8 @@ public class MLutFile {
                 let mode = MLutExposureMode(index: i)!
                 let l = cLuts[mode]
                
-                debugPrint(" save lut: ", mode, l)
-                
+                debugPrint(" save lut: ", mode, l, self.attributes.lutSize.size)
+
                 var _2d:IMPImageProvider = try l!.convert(to: .lut_2d, lutSize: self.attributes.lutSize.size, format: .float)
                 
                 if let data = try _2d.representation(using: .png, compression: 1, reflect: true) {
@@ -287,7 +287,7 @@ public class MLutFile {
     fileprivate func cLutIdentity() -> IMPCLut {
         return try! IMPCLut(context: context,
                             lutType: .lut_3d,
-                            lutSize: MLutSize.large.size,
+                            lutSize: MLutSize.normal.size,
                             format: .float,
                             title: "Dehancer mLut Maker CLUT Source")
     }
