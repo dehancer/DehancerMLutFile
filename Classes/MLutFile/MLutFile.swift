@@ -24,9 +24,14 @@ public class MLutFile {
     
     public var type:MLutType = .mlut
     
+    
     public lazy var cLuts:[MLutExposureMode:IMPCLut] = [MLutExposureMode.under:self.cLutIdentity(),
                                                         MLutExposureMode.normal:self.cLutIdentity(),
                                                         MLutExposureMode.over:self.cLutIdentity()]
+
+    public func get_url() -> URL {
+        return self.url
+    }
     
     static public func restore(url:URL, context:IMPContext?=nil, discard cache:Bool = false) throws -> MLutFile? {
         let manager = FileManager()
